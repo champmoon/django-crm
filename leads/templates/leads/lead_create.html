@@ -9,8 +9,10 @@
   <body>
     <a href="/leads">Go back to leads</a>
     <hr />
-    <h1>This is the details of {{ lead }}</h1>
-    <p>This persons age: {{ lead.age }}</p>
-    <p>The agent responsible for this lead is - {{ lead.agent }}</p>
+    <h1>Create a new lead</h1>
+    <form method="post">
+      {% csrf_token %} {{ form.as_p }}
+      <button type="submit">Submit</button>
+    </form>
   </body>
 </html>

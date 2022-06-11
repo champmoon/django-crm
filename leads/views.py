@@ -1,7 +1,8 @@
 from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
-from .models import Lead
+from .forms import LeadModelForm
+from .models import Agent, Lead
 
 
 def lead_list(request: HttpRequest) -> HttpResponse:
@@ -18,3 +19,17 @@ def lead_detail(request: HttpRequest, pk: int) -> HttpResponse:
         'lead': lead
     }
     return render(request, 'leads/lead_detail.html', context)
+
+
+def lead_create(request: HttpRequest) -> HttpResponse:
+    form = LeadModelForm()
+    if request.method == 'POST':
+        form = LeadModelForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/leads')
+
+    context = {
+        'form': form
+    }
+    return render(request, 'leads/lead_create.html', context)
