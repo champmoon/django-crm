@@ -1,8 +1,12 @@
 from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
 
 from .forms import LeadModelForm
 from .models import Agent, Lead
+
+
+def landing_page(request: HttpRequest) -> HttpResponse:
+    return render(request, 'landing.html')
 
 
 def lead_list(request: HttpRequest) -> HttpResponse:
