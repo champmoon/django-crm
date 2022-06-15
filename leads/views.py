@@ -1,3 +1,6 @@
+from django.core.mail import send_mail
+from django.forms import ModelForm
+from django.http import HttpResponse
 from django.shortcuts import resolve_url
 from django.views import generic
 
@@ -27,6 +30,15 @@ class LeadCreateView(generic.CreateView):
 
     def get_success_url(self) -> str:
         return resolve_url('leads:lead-list')
+
+    def form_valid(self, form: ModelForm) -> HttpResponse:
+        send_mail(
+            subject='A lead has been created',
+            message='Go to the site to see the new lead',
+            from_email='test@test.com',
+            recipient_list=['recip1@test.com']
+        )
+        return super(LeadCreateView, self).form_valid(form)
 
 
 class LeadUpdateView(generic.UpdateView):
