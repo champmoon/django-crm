@@ -2,6 +2,7 @@ from django.core.mail import send_mail
 from django.forms import ModelForm
 from django.http import HttpResponse
 from django.shortcuts import resolve_url
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 
 from .forms import CustomUserCreationForm, LeadModelForm
@@ -20,7 +21,7 @@ class LandingPageView(generic.TemplateView):
     template_name = 'landing.html'
 
 
-class LeadListView(generic.ListView):
+class LeadListView(LoginRequiredMixin, generic.ListView):
     model = Lead
     template_name = 'leads/lead_list.html'
     context_object_name = 'leads'
@@ -32,7 +33,7 @@ class LeadDetailView(generic.DetailView):
     context_object_name = 'lead'
 
 
-class LeadCreateView(generic.CreateView):
+class LeadCreateView(LoginRequiredMixin, generic.CreateView):
     form_class = LeadModelForm
     template_name = 'leads/lead_create.html'
 
@@ -49,7 +50,7 @@ class LeadCreateView(generic.CreateView):
         return super(LeadCreateView, self).form_valid(form)
 
 
-class LeadUpdateView(generic.UpdateView):
+class LeadUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Lead
     form_class = LeadModelForm
     template_name = 'leads/lead_update.html'
@@ -58,7 +59,7 @@ class LeadUpdateView(generic.UpdateView):
         return resolve_url('leads:lead-list')
 
 
-class LeadDeleteView(generic.DeleteView):
+class LeadDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Lead
     template_name = 'leads/lead_delete.html'
     context_object_name = 'lead'
