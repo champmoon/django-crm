@@ -4,8 +4,16 @@ from django.http import HttpResponse
 from django.shortcuts import resolve_url
 from django.views import generic
 
-from .forms import LeadModelForm
+from .forms import CustomUserCreationForm, LeadModelForm
 from .models import Lead
+
+
+class SignupView(generic.CreateView):
+    template_name = 'registration/signup.html'
+    form_class = CustomUserCreationForm
+
+    def get_success_url(self) -> str:
+        return resolve_url('login')
 
 
 class LandingPageView(generic.TemplateView):
