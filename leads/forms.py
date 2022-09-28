@@ -17,5 +17,4 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username',)
-        # fields = '__all__'
         field_classes = {'username': UsernameField}
